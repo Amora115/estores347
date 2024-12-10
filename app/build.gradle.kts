@@ -1,9 +1,12 @@
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application") // Para um módulo de aplicação Android
+    id("com.google.gms.google-services")
+    kotlin("android")
+    alias(libs.plugins.google.gms.google.services) // Para suporte a Kotlin
 }
+
 
 android {
     namespace = "com.example.projetodemoveis"
@@ -30,6 +33,7 @@ android {
 
         // Definir o campo BuildConfig.API_KEY
         buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -51,6 +55,13 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -58,14 +69,21 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("com.google.firebase:firebase-auth:21.0.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.1.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
 }
